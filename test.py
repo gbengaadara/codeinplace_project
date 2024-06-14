@@ -1,19 +1,19 @@
-from tkinter import *
-from PIL import Image, ImageTk
+import tkinter as tk
 
-root = Tk()
-make_frame = LabelFrame(root, text="Sample Image", width=400, height=600)
-make_frame.pack()
+def focus_next(event):
+    event.widget.tk_focusNext().focus_set()
 
-stim_filename = "images/background.png"
-PIL_image = Image.open(stim_filename)
-width, height = 400, 600
-PIL_image_small = PIL_image.resize((width, height), Image.ANTIALIAS)
+root = tk.Tk()
+e1 = tk.Entry(root)
+e1.pack()
+e1.focus()
+e1.bind("<Return>", focus_next)  # Bind Enter key to focus_next function
 
-img = ImageTk.PhotoImage(PIL_image_small)
-in_frame = Label(make_frame, image=img).pack
-b = Button(in_frame, text="Dont Click").pack
+e2 = tk.Entry(root)
+e2.pack()
+e2.bind("<Return>", focus_next)
 
-
-
+e3 = tk.Entry(root)
+e3.pack()
 root.mainloop()
+
