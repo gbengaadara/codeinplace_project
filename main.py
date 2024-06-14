@@ -5,7 +5,10 @@ import sqlite3
 from datetime import datetime
 import time
 
-# Global variables for canvas size
+""" This is a basic equipment logger program created as a final project for 
+Stanford University Code In Place 2024 """
+
+# Global variables for canvas and sub window size
 CANVAS_WIDTH = 400
 CANVAS_HEIGHT = 600
 SUB_WINDOW_WIDTH = 300
@@ -13,7 +16,7 @@ SUB_WINDOW_HEIGHT = 250
 
 def main():
 
-    # set up the canvas
+    # set up the main canvas window
     root = Tk()
     root.title("Basic Equipment Logger")
     geom = str(CANVAS_WIDTH) + "x" + str(CANVAS_HEIGHT)  # Make the string "400x600"
@@ -21,15 +24,21 @@ def main():
     my_canvas = Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT)
     my_canvas.pack(fill="both", expand=False)
 
-    # background image
+    # set up background image
     bg = ImageTk.PhotoImage(file="images/background.png")
     my_canvas.create_image(0, 0, image=bg, anchor="nw")
 
+    # the function to setup buttons on the home screen
     main_screen_buttons(root, my_canvas)
+
+    # create mysqlite3 tables. Comment out after initial creation
     # create_table_equipment()
     # create_table_log()
+
     my_canvas.mainloop()
 
+
+# function to set focus to next widget on screen
 def focus_next(event):
     event.widget.tk_focusNext().focus_set()
 
@@ -57,7 +66,15 @@ def ab_level():
     geom = str(SUB_WINDOW_WIDTH) + "x" + str(SUB_WINDOW_HEIGHT)  # Make the string for sub window
     ab.geometry(geom)
 
-    # Create drop down for equipment typer
+    # Create labels for drop down and entry box and window info
+    intro_label = Label(ab, text="Equip. details")
+    intro_label.grid(row=0, column=0, padx=5, pady=5)
+    e_type_label = Label(ab, text="Equip. Type")
+    e_type_label.grid(row=1, column=0, padx=5, pady=5)
+    s_number_label = Label(ab, text="Serial Number")
+    s_number_label.grid(row=2, column=0, padx=5, pady=5)
+
+    # Create drop down for equipment type
     e_type = StringVar()
     e_type.set("Scanner")
     drop = OptionMenu(ab, e_type,  "Scanner", "Printer")
@@ -68,15 +85,10 @@ def ab_level():
     # Create Entry boxes for Type and Serial Number
     s_number = Entry(ab, width=20)
     s_number.focus()
+    s_number.bind("<Return>", focus_next)  # Bind the Enter key to focus_next widget
     s_number.grid(row=2, column=1, padx=5, pady=5)
 
-    # Create labels for drop down and entry box and window info
-    intro_label = Label(ab, text="Equip. details")
-    intro_label.grid(row=0, column=0, padx=5, pady=5)
-    e_type_label = Label(ab, text="Equip. Type")
-    e_type_label.grid(row=1, column=0, padx=5, pady=5)
-    s_number_label = Label(ab, text="Serial Number")
-    s_number_label.grid(row=2, column=0, padx=5, pady=5)
+
 
 
     # Exit and submit button functions
@@ -107,10 +119,11 @@ def ab_level():
 
 
     # Submit and Exit buttons
-    exit_btn = Button(ab, text='Exit', command=exit_btn)
-    exit_btn.grid(row=4, column=0, columnspan=2, ipadx=110, padx=5, pady=5)
     submit_btn = Button(ab, text='Submit', command=submit_btn)
     submit_btn.grid(row=3, column=0, columnspan=2, ipadx=100, padx=5, pady=5)
+    exit_btn = Button(ab, text='Exit', command=exit_btn)
+    exit_btn.grid(row=4, column=0, columnspan=2, ipadx=110, padx=5, pady=5)
+
 
 
 # Create window and associated entry boxes, labels and buttons for equipment check out into database
@@ -124,7 +137,7 @@ def co_level():
     # Create Entry boxes for Type and Serial Number
     employee_id = Entry(co, width=20)
     employee_id.focus()
-    employee_id.bind("<Return>", focus_next)  # Bind Enter key to focus_next function
+    employee_id.bind("<Return>", focus_next)  # Bind the Enter key to focus_next widget
     employee_id.grid(row=1, column=1, padx=5, pady=5)
     s_number = Entry(co, width=20)
     s_number.grid(row=2, column=1, padx=5, pady=5)
@@ -277,7 +290,7 @@ def ci_level():
             message = "Hello, you checked in equipment serial number " + s_num
             messagebox.showinfo("Information!", message, parent=ci)
             # Clear text boxes
-            e_status.delete(0, END)
+            # e_status.delete(0, END) # Needed if using text box
             s_number.delete(0, END)
 
 
