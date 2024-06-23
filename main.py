@@ -152,8 +152,8 @@ def co_level():
     employee_id_label.grid(row=1, column=0, padx=5, pady=5)
     s_number_label = Label(co, text="Serial Number")
     s_number_label.grid(row=2, column=0, padx=5, pady=5)
-    #test_entry = Entry(ab, font=("Helvetica", 24), width=14, fg="#336d92") #testing
-    #test_entry.pack()
+    # test_entry = Entry(ab, font=("Helvetica", 24), width=14, fg="#336d92") #testing
+    # test_entry.pack()
 
     # Exit and submit button functions
     def exit_btn():
@@ -300,7 +300,7 @@ def query_eqp():
     qe.title("Equipment List")
     geom = str(SUB_WINDOW_WIDTH) + "x" + str(SUB_WINDOW_HEIGHT)  # Make the string for sub window
     qe.geometry(geom)
-    #connect to database
+    # connect to database
     conn = sqlite3.connect("equipment.db")
     cursor = conn.cursor()
     # Select all equipment
@@ -313,7 +313,7 @@ def query_eqp():
         qe.destroy()
         qe.update()
     # print(records)
-    #set up variables to use in storing records
+    # set up variables to use in storing records
     print_id = ""
     print_type = ""
     print_serial = ""
@@ -340,7 +340,7 @@ def query_eqp():
     serial_label = Label(qe, text="Serial Number", width=12)
     serial_label.grid(row=1, column=2, padx=5, pady=5)
 
-    #create labels for the column data
+    # create labels for the column data
     id_label_data = Label(qe, text=print_id, width=7)
     id_label_data.grid(row=2, column=0, padx=5, pady=5)
     type_label_data = Label(qe, text=print_type, width=12)
@@ -474,7 +474,7 @@ def create_table_equipment():
     serial_number text
     )""")
 
-    #commit changes
+    # commit changes
     conn.commit()
     conn.close()
 
@@ -492,7 +492,7 @@ def create_table_log():
     status text
     )""")
 
-    #commit changes
+    # commit changes
     conn.commit()
     conn.close()
 
